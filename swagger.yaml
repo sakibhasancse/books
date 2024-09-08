@@ -1,110 +1,116 @@
-openapi: 3.0.0
-info:
-  title: Book Management API
-  description: API for managing books in a bookstore
-  version: 1.0.0
+tags:
+- name: books
+  description: books API
 
 paths:
+# [GET] books
   /books:
     get:
-      summary: Retrieve a list of books
+      tags:
+      - books
+      summary: Find All books
       responses:
-        '200':
-          description: A list of books
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Book'
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+# [POST] books
     post:
-      summary: Add a new book
-      requestBody:
+      tags:
+      - books
+      summary: Add book
+      parameters:
+      - name: body
+        in: body
+        description: book Data
         required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Book'
+        schema:
+          $ref: '#/definitions/books'
       responses:
-        '201':
-          description: Book created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book'
-        '400':
-          description: Invalid input
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+# [GET] books/id
   /books/{id}:
     get:
-      summary: Retrieve a book by ID
+      tags:
+      - books
+      summary: Find book By Id
       parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: The ID of the book to retrieve
-      responses:
-        '200':
-          description: Book details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book'
-        '404':
-          description: Book not found
-    put:
-      summary: Update a book by ID
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: The ID of the book to update
-      requestBody:
+      - name: id
+        in: path
+        description: book Id
         required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BookUpdate'
       responses:
-        '200':
-          description: Book updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book'
-        '400':
-          description: Invalid input
-        '404':
-          description: Book not found
-    delete:
-      summary: Delete a book by ID
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: The ID of the book to delete
-      responses:
-        '204':
-          description: Book deleted successfully
-        '404':
-          description: Book not found
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
 
-components:
-  schemas:
-    Book:
-      type: object
-      required:
+# [PUT] books/id
+    put:
+      tags:
+      - books
+      summary: Update book By Id
+      parameters:
+      - name: id
+        in: path
+        description: book Id
+        required: true
+      - name: body
+        in: body
+        description: book Data
+        required: true
+        schema:
+          $ref: '#/definitions/books'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+# [DELETE] books/id
+    delete:
+      tags:
+      - books
+      summary: Delete book By Id
+      parameters:
+      - name: id
+        in: path
+        description: book Id
+        required: true
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+# definitions
+definitions:
+  books:
+    type: object
+    required:
         - title
         - isbn
         - price
         - author
         - category
-      properties:
+    properties:
         title:
           type: string
           description: The title of the book
@@ -121,22 +127,9 @@ components:
         category:
           type: string
           description: The category of the book
-    BookUpdate:
-      type: object
-      properties:
-        title:
-          type: string
-          description: The title of the book
-        isbn:
-          type: string
-          description: The ISBN of the book
-        price:
-          type: number
-          format: float
-          description: The price of the book
-        author:
-          type: string
-          description: The author of the book
-        category:
-          type: string
-          description: The category of the book
+
+
+# schemes:
+#  - https
+#  - http
+

@@ -14,7 +14,7 @@
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "npx husky install",
-    "seed": "ts-node seed.ts"
+    "seed": "ts-node -r tsconfig-paths/register --transpile-only  src/seed.ts"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -79,6 +79,5 @@
       "pre-commit": "lint-staged"
     }
   },
-  "keywords": [
-  ]
+  "keywords": []
 }

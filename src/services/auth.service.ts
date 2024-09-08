@@ -19,6 +19,7 @@ class AuthService {
 
     const hashedPassword = await hash(userData.password, 10);
     const createUserData: User = await this.users.create({ ...userData, password: hashedPassword });
+    createUserData.password = undefined;
 
     return createUserData;
   }
@@ -31,7 +32,7 @@ class AuthService {
 
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
     if (!isPasswordMatching) throw new HttpException(409, 'Password is not matching');
-
+    findUser.password = undefined;
     const tokenData = this.createToken(findUser);
     const cookie = this.createCookie(tokenData);
 
@@ -43,6 +44,7 @@ class AuthService {
 
     const findUser: User = await this.users.findOne({ email: userData.email, password: userData.password });
     if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
+    findUser.password = undefined;
 
     return findUser;
   }
