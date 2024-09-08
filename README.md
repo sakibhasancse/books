@@ -35,9 +35,10 @@ To get a local copy up and running, follow these steps:
 - **Books:**
   - `GET /books`: Retrieve a list of all books
   - `POST /books`: Add a new book
-  - `GET /books/{id}`: Retrieve details of a specific book by ID
-  - `PUT /books/{id}`: Update details of an existing book
-  - `DELETE /books/{id}`: Remove a book from the store
+  - `GET /books/{idOrIsbn}`: Retrieve details of a specific book by idOrIsbn
+  - `PUT /books/{idOrIsbn}`: Update details of an existing book
+  - `DELETE /books/{idOrIsbn}`: Remove a book from the store
+  - `PUT /v2/books/{idOrIsbn}`: Update details of an existing book V2
 
 - **Authentication:**
   - `POST /auth/signup`: Sign up a new user
